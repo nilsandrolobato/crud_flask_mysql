@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from db import get_db
 import mysql.connector
+from auth import login_required
 
 cliente_bp = Blueprint('cliente', __name__, template_folder='templates/cliente')
 
@@ -45,6 +46,7 @@ def listar():
 
 
 @cliente_bp.route('/criar', methods=['GET', 'POST'])
+@login_required
 def criar():
     if request.method == 'POST':
         nome = request.form['nome']
@@ -91,6 +93,7 @@ def detalhes(id):
 
 
 @cliente_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar(id):
     db = get_db()
     if db is None:
@@ -131,6 +134,7 @@ def editar(id):
 
 
 @cliente_bp.route('/deletar/<int:id>', methods=['POST'])
+@login_required
 def deletar(id):
     db = get_db()
     if db is None:
